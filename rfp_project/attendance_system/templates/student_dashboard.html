@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="center-card" style="max-width: 600px; text-align: center;">
+    <h2 style="margin-bottom: 0.5rem;">Student Dashboard</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Welcome back, {{ data.name }}</p>
+
+    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+        <h3 style="margin-bottom: 0.5rem;">Attendance Records</h3>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Roll No: {{ data.roll_no }}</p>
+    </div>
+    
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        <div style="padding: 1rem;">
+            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Present</div>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--success);">{{ data.present_days }}</div>
+        </div>
+        
+        <div style="padding: 1rem;">
+            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Absent</div>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--danger);">{{ data.absent_days }}</div>
+        </div>
+        
+        <div style="padding: 1rem;">
+            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Percentage</div>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">{{ "%.1f"|format(data.percentage) }}%</div>
+        </div>
+    </div>
+    
+    <div class="text-center" style="margin-bottom: 2rem;">
+        {% if data.percentage < 75 %}
+            <div class="badge-low" style="padding: 0.5rem 1rem; font-size: 1rem;">⚠️ Low Attendance Warning</div>
+            <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-muted);">Your attendance is below the minimum 75% requirement.</p>
+        {% else %}
+            <div class="badge-good" style="padding: 0.5rem 1rem; font-size: 1rem;">✓ Tracking Good</div>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('logout') }}" class="btn btn-danger" style="display: inline-block; width: 150px;">Logout</a>
+    </div>
+</div>
+{% endblock %}

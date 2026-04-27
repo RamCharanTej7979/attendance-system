@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="poppins">Student Portal</h2>
+        <a href="{{ url_for('student_logout') }}" class="btn btn-secondary"><i class="ri-logout-box-line"></i> Logout</a>
+    </div>
+    
+    <div class="glass-panel text-center mb-4">
+        <h3>{{ student.name }}</h3>
+        <p class="text-muted">Roll No: {{ student.roll_number }}</p>
+        
+        {% set percentage = summary.percentage if summary else 0.0 %}
+        
+        <div class="progress-container">
+            <div class="circular-progress" data-percentage="{{ percentage }}">
+                <div class="progress-value">{{ "%.1f"|format(percentage) }}%</div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center gap-4 mt-4">
+            <div class="glass-card" style="min-width: 150px;">
+                <p class="text-muted">Present</p>
+                <h3 style="color: var(--success);">{{ summary.present_days if summary else 0 }}</h3>
+            </div>
+            <div class="glass-card" style="min-width: 150px;">
+                <p class="text-muted">Absent</p>
+                <h3 style="color: var(--danger);">{{ (25 - (summary.present_days if summary else 0)) if (25 - (summary.present_days if summary else 0)) > 0 else 0 }}</h3>
+            </div>
+            <div class="glass-card" style="min-width: 150px;">
+                <p class="text-muted">Working Days</p>
+                <h3>25</h3>
+            </div>
+        </div>
+        
+        {% if percentage < 75.0 %}
+        <div class="alert alert-error mt-4 text-left d-flex align-items-center">
+            <i class="ri-error-warning-line" style="font-size: 1.5rem; margin-right: 1rem;"></i>
+            <div>
+                <strong>Warning!</strong> Your attendance is below 75%. Please improve your attendance to avoid detentions.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="glass-panel" style="padding: 1.5rem;">
+        <h3>Attendance History</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance %}
+                    <tr>
+                        <td>{{ record.date }}</td>
+                        <td>{{ record.time }}</td>
+                        <td><span class="badge badge-success">{{ record.status }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center">No attendance records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

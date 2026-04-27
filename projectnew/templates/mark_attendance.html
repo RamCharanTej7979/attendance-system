@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center py-4" style="min-height: 100vh;">
+    <div class="d-flex justify-content-between align-items-center w-100 mb-4" style="max-width: 800px; padding: 0 1rem;">
+        <h2 class="poppins">Live Attendance Kiosk</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary"><i class="ri-home-line"></i> Home</a>
+    </div>
+    
+    <div class="glass-panel w-100 text-center" style="max-width: 800px; padding: 1.5rem; position: relative;">
+        <!-- Loading spinner -->
+        <div id="stream-loader" class="d-flex flex-column align-items-center justify-content-center" style="position: absolute; inset: 0; z-index: 10; background: var(--glass-bg); border-radius: 1.5rem;">
+            <div class="loader-spinner"></div>
+            <p class="mt-4 text-muted">Initializing Secure Webcam Feed...</p>
+        </div>
+
+        <div class="video-container" style="max-width: 100%; border-radius: 0.75rem; position: relative; z-index: 1;">
+            <img id="attendance-feed" src="{{ url_for('video_feed_attendance') }}" alt="Attendance Feed" style="width: 100%; opacity: 0; transition: opacity 0.8s ease;">
+        </div>
+    </div>
+    
+    <div class="glass-panel w-100 mt-4" style="max-width: 800px; padding: 2rem;">
+        <h3 class="mb-2 d-flex align-items-center gap-3"><i class="ri-information-line" style="color: var(--primary);"></i> Instructions</h3>
+        <p class="text-muted" style="line-height: 1.8;">
+            Please look directly at the camera to mark your attendance. Your name and roll number will temporarily flash over the bounding box once your face is detected and your attendance will be logged automatically. Do not use duplicate markings; the system automatically records a person exactly once per day.
+        </p>
+    </div>
+</div>
+
+<style>
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(79, 70, 229, 0.2);
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const feed = document.getElementById("attendance-feed");
+        const loader = document.getElementById("stream-loader");
+
+        // When the first frame loads from the MJPEG stream, hide the loader
+        feed.addEventListener("load", function() {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 300);
+            feed.style.opacity = '1';
+        });
+
+        // Error handling for webcam failure
+        feed.addEventListener("error", function() {
+            loader.innerHTML = '<i class="ri-error-warning-line text-danger" style="font-size: 3rem;"></i><p class="mt-2 text-danger">Camera failed to load. Please ensure permissions are granted and refresh.</p>';
+        });
+    });
+</script>
+{% endblock %}

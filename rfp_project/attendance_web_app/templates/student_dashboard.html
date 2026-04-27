@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header mt-6">
+    <div>
+        <h2>Student Dashboard</h2>
+        <p style="color: var(--text-muted);">Welcome back, {{ data.name }}</p>
+    </div>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+</div>
+
+<div class="center-card" style="margin-top: 2rem; max-width: 800px;">
+    <div class="flex justify-between items-center mb-4 border-bottom">
+        <h3>Class Attendance Records</h3>
+        <span style="color: var(--text-muted);">Roll No: {{ data.roll_no }}</span>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title">Present Days</div>
+            <div class="stat-value" style="color: var(--success);">{{ data.present_days }}</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-title">Absent Days</div>
+            <div class="stat-value" style="color: var(--danger);">{{ data.absent_days }}</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-title">Attendance</div>
+            <div class="stat-value" style="color: var(--primary);">{{ "%.1f"|format(data.percentage) }}%</div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-6">
+        {% if data.percentage < 75 %}
+            <div class="badge-low">⚠️ Low Attendance Warning</div>
+            <p class="mt-2" style="font-size: 0.9rem; color: var(--text-muted);">Your attendance is below the 75% requirement.</p>
+        {% else %}
+            <div class="badge-good">✓ Tracking Good</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

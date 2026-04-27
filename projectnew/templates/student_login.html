@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="glass-panel" style="max-width: 400px; width: 100%;">
+        <div class="text-center mb-4">
+            <i class="ri-user-smile-line" style="font-size: 3rem; color: var(--primary);"></i>
+            <h2 class="mt-2">Student Login</h2>
+            <p class="text-muted">Enter your roll number to view attendance.</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('student_login') }}">
+            <div class="form-group">
+                <label class="form-label" for="roll_number">Roll Number</label>
+                <input type="text" id="roll_number" name="roll_number" class="form-control" required placeholder="e.g. 21B01A0501">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">View Records</button>
+        </form>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="text-muted" style="text-decoration: none;"><i class="ri-arrow-left-line"></i> Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

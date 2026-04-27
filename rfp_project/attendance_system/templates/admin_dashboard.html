@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header mt-6">
+    <div>
+        <h2>Admin Dashboard</h2>
+        <p style="color: var(--text-muted);">System Management Control Panel</p>
+    </div>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+</div>
+
+<div class="center-card" style="margin-top: 2rem;">
+    <h3 style="text-align: center; margin-bottom: 2rem;">Quick Actions</h3>
+    
+    <div class="button-group">
+        <a href="{{ url_for('add_student_view') }}" class="btn btn-primary btn-block">
+            ➕ Add New Student
+        </a>
+        <a href="{{ url_for('view_students') }}" class="btn btn-secondary btn-block">
+            👥 View Students
+        </a>
+        <a href="{{ url_for('attendance_summary') }}" class="btn btn-secondary btn-block">
+            📊 Attendance Summary
+        </a>
+    </div>
+</div>
+{% endblock %}

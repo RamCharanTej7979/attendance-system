@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="center-card" style="margin-top: 2rem; text-align: center;">
+    <h2>Attendance Management System</h2>
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('admin_login') }}" class="btn btn-secondary" style="display: block; margin: 10px auto; width: 200px;">Admin Login</a>
+        <a href="{{ url_for('student_login') }}" class="btn btn-secondary" style="display: block; margin: 10px auto; width: 200px;">Student Login</a>
+        <a href="{{ url_for('attendance') }}" class="btn btn-primary" style="display: block; margin: 10px auto; width: 200px;">Mark Attendance</a>
+    </div>
+</div>
+{% endblock %}

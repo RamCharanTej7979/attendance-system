@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header mt-6">
+    <h2>Live Attendance Scanner</h2>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">&larr; Back to Home</a>
+</div>
+
+<div class="center-card" style="margin-top: 2rem; max-width: 800px; text-align: center;">
+    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Real-time Face Recognition Active</h3>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">
+        Please look at the camera. Attendance is marked automatically when recognized.
+        Duplicate daily sessions are ignored.
+    </p>
+    
+    <div class="video-container">
+        <!-- This calls our Flask backend to render the BGR OpenCV frames -->
+        <img src="{{ url_for('video_feed') }}" alt="Live Attendance Camera Feed">
+    </div>
+</div>
+{% endblock %}

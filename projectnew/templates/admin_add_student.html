@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            Attendance<span style="color: var(--primary)">AI</span>
+        </div>
+        <div class="sidebar-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link">
+                <i class="ri-dashboard-line"></i> Dashboard
+            </a>
+            <a href="{{ url_for('admin_add_student') }}" class="sidebar-link active">
+                <i class="ri-user-add-line"></i> Add Student
+            </a>
+            <a href="{{ url_for('admin_logout') }}" class="sidebar-link mt-4" style="color: var(--danger);">
+                <i class="ri-logout-box-line"></i> Logout
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="mb-4">
+            <h2 class="poppins">Register New Student</h2>
+            <p class="text-muted">Capture student face to add them to the recognition database.</p>
+        </div>
+        
+        <div class="d-flex gap-4 flex-wrap">
+            <div class="glass-panel" style="flex: 1; min-width: 300px;">
+                <form method="POST" action="{{ url_for('admin_add_student') }}">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Student Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="roll_number">Roll Number</label>
+                        <input type="text" id="roll_number" name="roll_number" class="form-control" required placeholder="e.g. 21B01A0501">
+                    </div>
+                    
+                    <input type="hidden" id="photo-data" name="photo_data" required>
+                    
+                    <div id="capture-status" class="mb-4" style="color: var(--warning); font-size: 0.875rem;">
+                        <i class="ri-information-line"></i> Please capture a face first before submitting.
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="ri-save-line" style="margin-right: 0.5rem;"></i> Register Student
+                    </button>
+                </form>
+            </div>
+            
+            <div class="glass-panel text-center" style="flex: 1; min-width: 400px; padding: 1.5rem;">
+                <h4 class="mb-2">Webcam Feed</h4>
+                <div class="video-container mb-4">
+                    <!-- We use url_for('video_feed_capture') which stream MJPEG from openCV for admin side -->
+                    <img id="webcam-feed" src="{{ url_for('video_feed_capture') }}" alt="Webcam Feed">
+                </div>
+                <button id="capture-btn" class="btn btn-secondary w-100 mb-4">
+                    <i class="ri-camera-line" style="margin-right: 0.5rem;"></i> Capture Face
+                </button>
+                
+                <h4 class="mb-2 text-left">Preview</h4>
+                <div class="video-container" style="background: rgba(0,0,0,0.5); min-height: 150px;">
+                    <img id="capture-preview" src="" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

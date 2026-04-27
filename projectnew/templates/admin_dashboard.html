@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            Attendance<span style="color: var(--primary)">AI</span>
+        </div>
+        <div class="sidebar-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link active">
+                <i class="ri-dashboard-line"></i> Dashboard
+            </a>
+            <a href="{{ url_for('admin_add_student') }}" class="sidebar-link">
+                <i class="ri-user-add-line"></i> Add Student
+            </a>
+            <a href="{{ url_for('admin_logout') }}" class="sidebar-link mt-4" style="color: var(--danger);">
+                <i class="ri-logout-box-line"></i> Logout
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="poppins">Admin Dashboard</h2>
+            <div class="d-flex gap-3 align-items-center">
+                <p>Welcome, Admin!</p>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="glass-card">
+                <p class="text-muted"><i class="ri-team-line"></i> Total Students</p>
+                <div class="stat-value">{{ students|length }}</div>
+            </div>
+            <div class="glass-card">
+                <p class="text-muted"><i class="ri-check-double-line"></i> Total Attendance Records</p>
+                <div class="stat-value">{{ attendance|length }}</div>
+            </div>
+            <div class="glass-card">
+                <p class="text-muted"><i class="ri-question-mark-line"></i> Unknown Faces</p>
+                <div class="stat-value">{{ unknown_faces|length }}</div>
+            </div>
+        </div>
+        
+        <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 2rem;">
+            <h3><i class="ri-group-line text-primary"></i> Registered Students</h3>
+            <div class="table-responsive mt-3">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Record ID</th>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>#{{ student.id }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.roll_number }}</td>
+                            <td>
+                                <form action="{{ url_for('admin_delete_student', student_id=student.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                                    <button type="submit" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.15); color: #FF6B6B; border: 1px solid rgba(239, 68, 68, 0.25); padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: 0.5rem;">
+                                        <i class="ri-delete-bin-line"></i> Remove
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No students currently registered.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem;">
+            <h3>Recent Attendance</h3>
+            <div class="table-responsive mt-3">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in attendance[:10] %}
+                        <tr>
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.roll_number }}</td>
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.time }}</td>
+                            <td><span class="badge badge-success">{{ record.status }}</span></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No attendance records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

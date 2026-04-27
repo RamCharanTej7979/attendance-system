@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header mt-6">
+    <h2>Registered Students</h2>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+
+<div class="center-card" style="margin-top: 2rem; max-width: 1000px;">
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+                <th style="padding: 1rem;">ID</th>
+                <th style="padding: 1rem;">Name</th>
+                <th style="padding: 1rem;">Roll Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 1rem;">{{ student.id }}</td>
+                <td style="padding: 1rem;">{{ student.name }}</td>
+                <td style="padding: 1rem;">{{ student.roll_no }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="padding: 1rem; text-align: center; color: var(--text-muted);">No students registered yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

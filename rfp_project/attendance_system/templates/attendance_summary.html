@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header mt-6">
+    <h2>Attendance Master Summary</h2>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+
+<div class="center-card" style="margin-top: 2rem; max-width: 1000px;">
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+                <th style="padding: 1rem;">Roll Number</th>
+                <th style="padding: 1rem;">Name</th>
+                <th style="padding: 1rem;">Present Days</th>
+                <th style="padding: 1rem;">Absent Days</th>
+                <th style="padding: 1rem;">Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summary_data %}
+            <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 1rem;">{{ row.roll_no }}</td>
+                <td style="padding: 1rem;">{{ row.name }}</td>
+                <td style="padding: 1rem; color: var(--success);">{{ row.present_days }}</td>
+                <td style="padding: 1rem; color: var(--danger);">{{ row.absent_days }}</td>
+                <td style="padding: 1rem; font-weight: bold; color: {% if row.percentage < 75 %}var(--danger){% else %}var(--primary){% endif %};">
+                    {{ "%.1f"|format(row.percentage) }}%
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-muted);">No attendance records available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
